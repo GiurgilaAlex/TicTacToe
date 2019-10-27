@@ -2,6 +2,10 @@ import random
 
 game_matrix = []
 turn = 0
+turn_values = {
+    0: 'X',
+    1: 'O'
+}
 
 def set_initial_state():
     global game_matrix
@@ -57,7 +61,7 @@ def player_turn():
     player_move_column = input()
 
     if check_if_move_is_valid(player_move_line, player_move_column):
-        game_matrix[int(player_move_line)][int(player_move_column)] = 'X'
+        game_matrix[int(player_move_line)][int(player_move_column)] = turn_values[turn]
     turn = 1
 
 def computer_turn():
@@ -71,14 +75,23 @@ def computer_turn():
 
     print("Line: ", computer_move_line, '\n', end = '')
     print("Column: ", computer_move_column, '\n', end = '')
-    game_matrix[computer_move_line][computer_move_column] = 'O'
+    game_matrix[computer_move_line][computer_move_column] = turn_values[turn]
 
     turn = 0
 
 def game():
-    global game_matrix, turn
+    global game_matrix, turn, turn_values
     set_initial_state()
     display_current_state()
+    turn = random.randint(0, 1)
+    if turn == 0:
+        print("You start first!")
+    else:
+        print("Computer starts first!")
+        turn_values = {
+            0: 'O',
+            1: 'X'
+        }
 
     while not check_state_if_final():
         if turn == 0:
